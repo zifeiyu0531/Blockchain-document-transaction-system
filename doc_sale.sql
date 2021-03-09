@@ -56,7 +56,9 @@ CREATE TABLE `bank_account` (
   `phone_number` varchar(45) COLLATE utf8_bin NOT NULL,
   `id_card_number` varchar(45) COLLATE utf8_bin NOT NULL,
   `real_name` varchar(10) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`bank_account_id`)
+  PRIMARY KEY (`bank_account_id`),
+  KEY `BANK_ACCOUNT_USER_ID_idx` (`user_id`),
+  CONSTRAINT `BANK_ACCOUNT_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -71,7 +73,11 @@ CREATE TABLE `cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `article_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `CART_ARTICLE_ID_idx` (`article_id`),
+  KEY `CART_USER_ID_idx` (`user_id`),
+  CONSTRAINT `CART_ARTICLE_ID` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`),
+  CONSTRAINT `CART_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -88,7 +94,9 @@ CREATE TABLE `point_history` (
   `num` double NOT NULL,
   `type` int(11) NOT NULL,
   `date` varchar(45) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `POINT_HISTORY_USER_ID_idx` (`user_id`),
+  CONSTRAINT `POINT_HISTORY_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,7 +154,9 @@ CREATE TABLE `rmb_history` (
   `num` double NOT NULL,
   `type` int(11) NOT NULL,
   `date` varchar(45) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `RMB_HISTORY_USER_ID_idx` (`user_id`),
+  CONSTRAINT `RMB_HISTORY_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -180,8 +190,12 @@ DROP TABLE IF EXISTS `stored_article`;
 CREATE TABLE `stored_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `article_id` int(11) NOT NULL,
-  `user_id` varchar(45) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `article_id_idx` (`article_id`),
+  KEY `user_id_idx` (`user_id`),
+  CONSTRAINT `STORED_ARTICLE_ID` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`),
+  CONSTRAINT `STORED_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -214,4 +228,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-21 10:51:47
+-- Dump completed on 2021-03-09 13:49:38
